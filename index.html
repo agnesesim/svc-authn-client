@@ -64,8 +64,8 @@
                 rawId: bufferEncode(rawId),
                 type: credential.type,
                 response: {
-                attestationObject: bufferEncode(attestationObject),
-                clientDataJSON: bufferEncode(clientDataJSON),
+                attestationObject: attestationObject, //bufferEncode(attestationObject),
+                clientDataJSON: clientDataJSON, //bufferEncode(clientDataJSON),
                 },
             }),
             function (data) {
