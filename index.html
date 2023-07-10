@@ -87,28 +87,13 @@
     // Base64 to ArrayBuffer
     function bufferDecode(value) {
         console.log(value)
-        var unit8array = new Uint8Array(value.split("").map(function(c) {
-            return c.charCodeAt(0); 
-        }));
-
-        console.log(unit8array)
-        return unit8array
-        // return Uint8Array.from(value, c => c.charCodeAt(0));
+        return Uint8Array.from(value, c => c.charCodeAt(0));
     }
 
     // ArrayBuffer to URLBase64
     function bufferEncode(value) {
         console.log(value)
-
-        var decoder = new TextDecoder('utf8');
-        var b64encoded = btoa(decoder.decode(value));
-
-        console.log(b64encoded)
-        return b64encoded
-        // return btoa(String.fromCharCode.apply(null, new Uint8Array(value)))
-        //     .replace(/\+/g, "-")
-        //     .replace(/\//g, "_")
-        //     .replace(/=/g, "");;
+        return btoa(String.fromCharCode.apply(null, new Uint8Array(value)))
     }
   </script>
 </body>
