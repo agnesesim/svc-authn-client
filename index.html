@@ -61,11 +61,11 @@
             'http://localhost:3000/signup/finish/' + username,
             JSON.stringify({
                 id: credential.id,
-                rawId: rawId, //bufferEncode(rawId),
+                rawId: bufferEncode(rawId),
                 type: credential.type,
                 response: {
-                attestationObject: attestationObject, //bufferEncode(attestationObject),
-                clientDataJSON: clientDataJSON, //bufferEncode(clientDataJSON),
+                    attestationObject: bufferEncode(attestationObject),
+                    clientDataJSON: bufferEncode(clientDataJSON),
                 },
             }),
             function (data) {
@@ -91,9 +91,9 @@
     // ArrayBuffer to URLBase64
     function bufferEncode(value) {
         return String.fromCharCode.apply(null, new Uint8Array(value))
-            .replace(/\+/g, "-")
-            .replace(/\//g, "_")
-            .replace(/=/g, "");;
+            // .replace(/\+/g, "-")
+            // .replace(/\//g, "_")
+            // .replace(/=/g, "");;
     }
   </script>
 </body>
