@@ -52,7 +52,7 @@
             })
         })
         .then((credential) => {
-
+            console.log(credential)
             let attestationObject = credential.response.attestationObject;
             let clientDataJSON = credential.response.clientDataJSON;
             let rawId = credential.rawId;
