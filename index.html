@@ -87,7 +87,7 @@
     // Base64 to ArrayBuffer
     function bufferDecode(value) {
         console.log(value)
-        var unit8array = new Uint8Array(atob(b64encoded).split("").map(function(c) {
+        var unit8array = new Uint8Array(atob(value).split("").map(function(c) {
             return c.charCodeAt(0); 
         }));
 
