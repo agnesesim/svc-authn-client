@@ -61,11 +61,11 @@
             'http://localhost:3000/signup/finish/' + username,
             JSON.stringify({
                 id: credential.id,
-                rawId: bufferEncode(rawId),
+                rawId: rawId, // bufferEncode(rawId),
                 type: credential.type,
                 response: {
-                    attestationObject: bufferEncode(attestationObject),
-                    clientDataJSON: bufferEncode(clientDataJSON),
+                    attestationObject: attestationObject, //bufferEncode(attestationObject),
+                    clientDataJSON: clientDataJSON, //bufferEncode(clientDataJSON),
                 },
             }),
             function (data) {
