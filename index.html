@@ -43,7 +43,7 @@
             },
         'json')
         .then((credentialCreationOptions) => {
-
+            console.log(credentialCreationOptions.publicKey.challenge)
             credentialCreationOptions.publicKey.challenge = bufferDecode(credentialCreationOptions.publicKey.challenge);
             credentialCreationOptions.publicKey.user.id = bufferDecode(credentialCreationOptions.publicKey.user.id);
 
@@ -86,13 +86,11 @@
 
     // Base64 to ArrayBuffer
     function bufferDecode(value) {
-        console.log(value)
         return Uint8Array.from(value, c => c.charCodeAt(0));
     }
 
     // ArrayBuffer to URLBase64
     function bufferEncode(value) {
-        console.log(value)
         return btoa(String.fromCharCode.apply(null, new Uint8Array(value)))
                 .replace(/\+/g, "-")
                 .replace(/\//g, "_")
