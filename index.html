@@ -93,7 +93,8 @@
     // ArrayBuffer to URLBase64
     function bufferEncode(value) {
         console.log(value)
-        return btoa(String.fromCharCode.apply(null, new Uint8Array(value)))
+        console.log(atob(String.fromCharCode.apply(null, new Uint8Array(value))))
+        return atob(String.fromCharCode.apply(null, new Uint8Array(value)))
     }
   </script>
 </body>
