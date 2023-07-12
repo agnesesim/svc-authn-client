@@ -96,28 +96,35 @@
                 return data
             },
         'json')
-        .then((credentialCreationOptions) => {
-            credentialCreationOptions.publicKey.challenge = bufferDecode(credentialCreationOptions.publicKey.challenge);
-            credentialCreationOptions.publicKey.user.id = bufferDecode(credentialCreationOptions.publicKey.user.id);
+        .then((credentialRequestOptions) => {
+
+            credentialRequestOptions.publicKey.challenge = bufferDecode(credentialRequestOptions.publicKey.challenge);
+            credentialRequestOptions.publicKey.allowCredentials.forEach(function (listItem) {
+                listItem.id = bufferDecode(listItem.id)
+            });
 
             return navigator.credentials.create({
-                publicKey: credentialCreationOptions.publicKey
+                publicKey: credentialRequestOptions.publicKey
             })
         })
-        .then((credential) => {
-            let attestationObject = credential.response.attestationObject;
-            let clientDataJSON = credential.response.clientDataJSON;
-            let rawId = credential.rawId;
+        .then((assertion) => {
+            let authData = assertion.response.authenticatorData;
+            let clientDataJSON = assertion.response.clientDataJSON;
+            let rawId = assertion.rawId;
+            let sig = assertion.response.signature;
+            let userHandle = assertion.response.userHandle;
 
             $.post(
             'http://localhost:3000/signin/finish/' + username,
             JSON.stringify({
-                id: credential.id,
+                id: assertion.id,
                 rawId: bufferEncode(rawId),
-                type: credential.type,
+                type: assertion.type,
                 response: {
-                    attestationObject: bufferEncode(attestationObject),
+                    authenticatorData: bufferEncode(authData),
                     clientDataJSON: bufferEncode(clientDataJSON),
+                    signature: bufferEncode(sig),
+                    userHandle: bufferEncode(userHandle),
                 },
             }),
             function (data) {
@@ -126,12 +133,12 @@
             'json')
         })
         .then((success) => {
-            alert("successfully registered " + username + "!")
+            alert("successfully logged " + username + "!")
             return
         })
         .catch((error) => {
             console.log(error)
-            alert("failed to register " + username)
+            alert("failed to log " + username)
         })
     }
 
