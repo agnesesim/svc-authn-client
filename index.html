@@ -103,7 +103,7 @@
                 listItem.id = bufferDecode(listItem.id)
             });
 
-            return navigator.credentials.create({
+            return navigator.credentials.get({
                 publicKey: credentialRequestOptions.publicKey
             })
         })
