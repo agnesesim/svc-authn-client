@@ -43,7 +43,6 @@
             },
         'json')
         .then((credentialCreationOptions) => {
-            console.log(credentialCreationOptions.publicKey.challenge)
             credentialCreationOptions.publicKey.challenge = bufferDecode(credentialCreationOptions.publicKey.challenge);
             credentialCreationOptions.publicKey.user.id = bufferDecode(credentialCreationOptions.publicKey.user.id);
 
@@ -52,7 +51,6 @@
             })
         })
         .then((credential) => {
-            console.log(credential)
             let attestationObject = credential.response.attestationObject;
             let clientDataJSON = credential.response.clientDataJSON;
             let rawId = credential.rawId;
@@ -86,6 +84,7 @@
 
     // Base64 to ArrayBuffer
     function bufferDecode(value) {
+            console.log(value)
         return Uint8Array.from(window.atob(value), c => c.charCodeAt(0));
     }
 
