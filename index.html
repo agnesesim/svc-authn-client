@@ -85,7 +85,11 @@
     // Base64 to ArrayBuffer
     function bufferDecode(value) {
             console.log(value)
-        return Uint8Array.from(window.atob(value), c => c.charCodeAt(0));
+        return Uint8Array.from(
+            window.atob(value
+                .replace("-", /\+/g)
+                .replace("_", /\//g)
+                ), c => c.charCodeAt(0));
     }
 
     // ArrayBuffer to URLBase64
