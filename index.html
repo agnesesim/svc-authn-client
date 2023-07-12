@@ -87,8 +87,8 @@
             console.log(value)
         return Uint8Array.from(
             window.atob(value
-                .replace("-", "+")
-                .replace("_", "/")
+                .replace(/\-/g, "+")
+                .replace(/\_/g, "/")
                 ), c => c.charCodeAt(0));
     }
 
