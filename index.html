@@ -72,7 +72,6 @@
             'json')
         })
         .then((success) => {
-            console.log(success)
             alert("successfully registered " + username + "!")
             return
         })
@@ -84,7 +83,6 @@
 
     // Base64 to ArrayBuffer
     function bufferDecode(value) {
-            console.log(value)
         return Uint8Array.from(
             window.atob(value
                 .replace(/\-/g, "+")
