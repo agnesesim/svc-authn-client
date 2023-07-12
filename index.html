@@ -26,7 +26,7 @@
             return;
         }
     });
-//comment to push
+
     function registerUser() {
 
         username = $("#email").val()
@@ -57,6 +57,60 @@
 
             $.post(
             'http://localhost:3000/signup/finish/' + username,
+            JSON.stringify({
+                id: credential.id,
+                rawId: bufferEncode(rawId),
+                type: credential.type,
+                response: {
+                    attestationObject: bufferEncode(attestationObject),
+                    clientDataJSON: bufferEncode(clientDataJSON),
+                },
+            }),
+            function (data) {
+                return data
+            },
+            'json')
+        })
+        .then((success) => {
+            alert("successfully registered " + username + "!")
+            return
+        })
+        .catch((error) => {
+            console.log(error)
+            alert("failed to register " + username)
+        })
+    }
+
+    function loginUser() {
+
+        username = $("#email").val()
+        if (username === "") {
+            alert("please enter a username");
+            return;
+        }
+
+        $.get(
+            'http://localhost:3000/signin/begin/' + username,
+            null,
+            function (data) {
+                return data
+            },
+        'json')
+        .then((credentialCreationOptions) => {
+            credentialCreationOptions.publicKey.challenge = bufferDecode(credentialCreationOptions.publicKey.challenge);
+            credentialCreationOptions.publicKey.user.id = bufferDecode(credentialCreationOptions.publicKey.user.id);
+
+            return navigator.credentials.create({
+                publicKey: credentialCreationOptions.publicKey
+            })
+        })
+        .then((credential) => {
+            let attestationObject = credential.response.attestationObject;
+            let clientDataJSON = credential.response.clientDataJSON;
+            let rawId = credential.rawId;
+
+            $.post(
+            'http://localhost:3000/signin/finish/' + username,
             JSON.stringify({
                 id: credential.id,
                 rawId: bufferEncode(rawId),
