@@ -47,6 +47,8 @@
             alert("Error: this browser does not support WebAuthn");
             return;
         }
+
+        refreshUsers();
     });
 
     function registerUser() {
