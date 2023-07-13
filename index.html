@@ -31,7 +31,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Response</h5>
-                        <p id="#response"></p>
+                        <p id="response"></p>
                     </div>
                   </div>
             </div>
@@ -41,7 +41,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Reply</h5>
-                        <p id="#reply"></p>
+                        <p id="reply"></p>
                     </div>
                   </div>
             </div>
@@ -62,12 +62,13 @@
     function registerUser() {
         $('#response').empty()
         $('#reply').empty()
+
         username = $("#email").val()
         if (username === "") {
             alert("please enter a username");
             return;
         }
-
+        
         $.get(
             'http://localhost:3000/signup/begin/' + username,
             null,
@@ -79,7 +80,7 @@
             credentialCreationOptions.publicKey.challenge = bufferDecode(credentialCreationOptions.publicKey.challenge);
             credentialCreationOptions.publicKey.user.id = bufferDecode(credentialCreationOptions.publicKey.user.id);
 
-            $('#response').text(credentialCreationOptions)
+            $('#response').text(credentialCreationOptions.toString())
             return navigator.credentials.create({
                 publicKey: credentialCreationOptions.publicKey
             })
@@ -97,7 +98,7 @@
                     attestationObject: bufferEncode(attestationObject),
                     clientDataJSON: bufferEncode(clientDataJSON),
                 },
-            }))
+            }).toString())
             
             $.post(
             'http://localhost:3000/signup/finish/' + username,
