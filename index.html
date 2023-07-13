@@ -30,18 +30,8 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Response</h5>
-                        <p id="response"></p>
-                    </div>
-                  </div>
-            </div>
-        </div>
-        <div class="row pt-3 d-flex justify-content-center">
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Reply</h5>
-                        <p id="reply"></p>
+                        <h5 class="card-title">Utenti</h5>
+                        <p id="users"></p>
                     </div>
                   </div>
             </div>
@@ -60,8 +50,6 @@
     });
 
     function registerUser() {
-        $('#response').empty()
-        $('#reply').empty()
 
         username = $("#email").val()
         if (username === "") {
@@ -80,7 +68,6 @@
             credentialCreationOptions.publicKey.challenge = bufferDecode(credentialCreationOptions.publicKey.challenge);
             credentialCreationOptions.publicKey.user.id = bufferDecode(credentialCreationOptions.publicKey.user.id);
 
-            $('#response').text(credentialCreationOptions.toString())
             return navigator.credentials.create({
                 publicKey: credentialCreationOptions.publicKey
             })
@@ -89,16 +76,6 @@
             let attestationObject = credential.response.attestationObject;
             let clientDataJSON = credential.response.clientDataJSON;
             let rawId = credential.rawId;
-
-            $('#reply').text(JSON.stringify({
-                id: credential.id,
-                rawId: bufferEncode(rawId),
-                type: credential.type,
-                response: {
-                    attestationObject: bufferEncode(attestationObject),
-                    clientDataJSON: bufferEncode(clientDataJSON),
-                },
-            }).toString())
             
             $.post(
             'http://localhost:3000/signup/finish/' + username,
@@ -117,6 +94,7 @@
             'json')
         })
         .then((success) => {
+            refreshUsers()
             alert("successfully registered " + username + "!")
             return
         })
@@ -187,6 +165,20 @@
         })
     }
 
+    function refreshUsers(){
+        $('#users').empty();
+        
+        $.get(
+            'http://localhost:3000/alluser',
+            null,
+            function (data) {
+                return data
+            },
+        'json')
+        .then((users) => {
+            $('#users').text(JSON.stringify(users))
+        })
+    }
     // Base64 to ArrayBuffer
     function bufferDecode(value) {
         return Uint8Array.from(
