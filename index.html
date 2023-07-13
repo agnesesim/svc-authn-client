@@ -31,7 +31,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Utenti</h5>
-                        <pre id="users"></pre>
+                        <pre id="users">
+                        </pre>
                     </div>
                   </div>
             </div>
@@ -178,7 +179,7 @@
             },
         'json')
         .then((users) => {
-            $('#users').textContent = JSON.stringify(users, undefined, 2);
+            $('#users').text(JSON.stringify(users, undefined, 2));
         })
     }
     // Base64 to ArrayBuffer
