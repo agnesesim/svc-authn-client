@@ -31,7 +31,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Utenti</h5>
-                        <p id="users"></p>
+                        <pre id="users"></pre>
                     </div>
                   </div>
             </div>
@@ -167,7 +167,7 @@
 
     function refreshUsers(){
         $('#users').empty();
-        
+
         $.get(
             'http://localhost:3000/alluser',
             null,
@@ -176,7 +176,7 @@
             },
         'json')
         .then((users) => {
-            $('#users').text(JSON.stringify(users))
+            $('#users').textContent = JSON.stringify(users, undefined, 2);
         })
     }
     // Base64 to ArrayBuffer
