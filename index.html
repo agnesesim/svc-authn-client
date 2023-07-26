@@ -233,7 +233,7 @@
     function refreshUsers(idOrg){
         $('#users').empty();
         $.get(
-            'http://localhost:3000/alluser/' + idOrg,
+            'http://localhost:3000/users/' + idOrg,
             null,
             function (data) {
                 return data
