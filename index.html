@@ -133,7 +133,6 @@
         }
         $('#org-details').hide()
         refreshOrgs();
-        refreshUsers(0);
     });
 
     function refreshOrgs(){
@@ -179,6 +178,7 @@
         $('#selectedOrg').val(idOrg)
 
         refreshKeys(idOrg)
+        refreshUsers(idOrg)
         $('#org-details').show()
     }
 
@@ -233,7 +233,7 @@
     function refreshUsers(idOrg){
         $('#users').empty();
         $.get(
-            'http://localhost:3000/alluser',
+            'http://localhost:3000/alluser/' + idOrg,
             null,
             function (data) {
                 return data
@@ -262,9 +262,15 @@
             alert("please enter a username");
             return;
         }
-        
+                
+        var idOrg = $('#selectedOrg').val()
+        if (idOrg === "") {
+            alert("please select an organizations");
+            return;
+        }
+
         $.get(
-            'http://localhost:3000/signup/begin/' + username,
+            'http://localhost:3000/signup/begin/' + idOrg + '&' + username,
             null,
             function (data) {
                 return data
@@ -284,7 +290,7 @@
             let rawId = credential.rawId;
             
             $.post(
-            'http://localhost:3000/signup/finish/' + username,
+            'http://localhost:3000/signup/finish/' + idOrg + '&'  + username,
             JSON.stringify({
                 id: credential.id,
                 rawId: bufferEncode(rawId),
@@ -312,14 +318,20 @@
 
     function loginUser(username) {
 
-        // username = $("#email").val()
-        // if (username === "") {
-        //     alert("please enter a username");
-        //     return;
-        // }
-
+        username = $("#email").val()
+        if (username === "") {
+            alert("please enter a username");
+            return;
+        }
+        
+        var idOrg = $('#selectedOrg').val()
+        if (idOrg === "") {
+            alert("please select an organizations");
+            return;
+        }
+        
         $.get(
-            'http://localhost:3000/signin/begin/' + username,
+            'http://localhost:3000/signin/begin/' + idOrg + '&'  + username,
             null,
             function (data) {
                 return data
@@ -344,7 +356,7 @@
             let userHandle = assertion.response.userHandle;
 
             $.post(
-            'http://localhost:3000/signin/finish/' + username,
+            'http://localhost:3000/signin/finish/' + idOrg + '&'  + username,
             JSON.stringify({
                 id: assertion.id,
                 rawId: bufferEncode(rawId),
